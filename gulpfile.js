@@ -70,7 +70,6 @@ gulp.task('watch', function () {
 });
 
 
-
 // default
 gulp.task('default', ['clean','html', 'scripts', 'styles', 'watch']);
 

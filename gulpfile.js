@@ -4,7 +4,7 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     less = require('gulp-less'),
     tsc = require('gulp-typescript'),
-    mocha = require('mocha'),
+    mocha = require('gulp-mocha'),
     del = require('del');
 
 var html_folder = 'src/**/*.html';
@@ -61,8 +61,10 @@ gulp.task('styles', function () {
 gulp.task('test', function() {
     gulp.src(test_folder)
         .pipe(tsc(tsProject))
-        .pipe(gulp.dest(out + '/tests/'))
-        .pipe(mocha);
+        .pipe(gulp.dest(out + '/tests/'));
+        
+    gulp.src(out + '/tests/**/*.js')
+        .pipe(mocha());
 })
 
 // watches js files
@@ -72,7 +74,8 @@ gulp.task('watch', function () {
 
 });
 
+gulp.task('build', ['clean', 'html', 'scripts', 'styles']);
 
 // default
-gulp.task('default', ['clean', 'html', 'scripts', 'styles', 'watch']);
+gulp.task('default', ['build', 'watch']);
 

@@ -1,7 +1,7 @@
 /// <reference path="../typings/main.d.ts" />
 
 import myLib = require("../src/myFile");
-import chai = require('chai');
+import mocha = require('mocha');
 import {expect } from 'chai';
 
 describe("Simple test", ()=>{

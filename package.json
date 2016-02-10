@@ -1,0 +1,17 @@
+{
+  "name": "gulp-tests",
+  "version": "1.0.0",
+  "description": "Test of gulp setup",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "gulp",
+    "test"
+  ],
+  "author": "HR",
+  "license": "ISC"
+}

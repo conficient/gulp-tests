@@ -67,7 +67,6 @@ gulp.task('watch', function () {
     gulp.watch(scripts_folder, ['scripts']);
     gulp.watch(styles_folder, ['styles']);
 
-
 });
 
 

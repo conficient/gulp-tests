@@ -7,6 +7,11 @@ var scripts_folder = 'src/**/*.js';
 var styles_folder = 'src/*.less';
 var out = 'build';
 
+function errorLog(error) {
+    console.error.bind(error);
+    this.emit('end');
+}
+
 // scripts task
 // uglifies
 gulp.task('scripts', function () {
@@ -22,7 +27,7 @@ gulp.task('scripts', function () {
 gulp.task('styles', function () {
     gulp.src(styles_folder)
         .pipe(less())
-        .on('error', console.error.bind(console))
+        .on('error', errorLog)
         .pipe(gulp.dest(out + '/css/'));
 });
 

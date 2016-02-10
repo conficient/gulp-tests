@@ -4,11 +4,14 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     less = require('gulp-less'),
     tsc = require('gulp-typescript'),
+    mocha = require('mocha'),
     del = require('del');
 
 var html_folder = 'src/**/*.html';
 var scripts_folder = 'src/**/*.ts';
 var styles_folder = 'src/*.less';
+var test_folder = 'tests/*.ts';
+
 var out = 'build';
 
 function errorLog(error) {
@@ -54,6 +57,13 @@ gulp.task('styles', function () {
         .on('error', errorLog)
         .pipe(gulp.dest(out + '/css/'));
 });
+
+gulp.task('test', function() {
+    gulp.src(test_folder)
+        .pipe(tsc(tsProject))
+        .pipe(gulp.dest(out + '/tests/'))
+        .pipe(mocha);
+})
 
 // watches js files
 gulp.task('watch', function () {

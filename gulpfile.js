@@ -3,7 +3,6 @@ var gulp = require('gulp'),
     htmlmin = require('gulp-htmlmin'),
     uglify = require('gulp-uglify'),
     less = require('gulp-less'),
-    livereload = require('gulp-livereload'),
     tsc = require('gulp-typescript'),
     del = require('del');
 
@@ -18,24 +17,24 @@ function errorLog(error) {
 }
 
 var tsProject = tsc.createProject({
-  removeComments : false,
-  noImplicitAny : false,
-  target : "ES5",
-  module : "amd",
-  declarationFiles : false
+    removeComments: false,
+    noImplicitAny: false,
+    target: "ES5",
+    module: "amd",
+    declarationFiles: false
 });
 
 // clean out the build folder
-gulp.task('clean', function() {
-    del('build/**','!build/');
+gulp.task('clean', function () {
+    console.log('clean turned off');
+    //del('build/**', '!build/');
 })
 
 // minify html and copy to build
 gulp.task('html', function () {
     gulp.src(html_folder)
-        .pipe(htmlmin({collapseWhitespace: true}))
-        .pipe(gulp.dest(out))   // save to build folder
-        .pipe(livereload());    // reload
+        .pipe(htmlmin({ collapseWhitespace: true }))
+        .pipe(gulp.dest(out));  // save to build folder
 })
 
 // scripts task - compile TS, uglify and output to /build
@@ -44,9 +43,8 @@ gulp.task('scripts', function () {
     gulp.src(scripts_folder)
         .pipe(tsc(tsProject))
         .on('error', errorLog)
-        .pipe(uglify())     // uglify
-        .pipe(gulp.dest(out + '/js')) // save to build folder
-        .pipe(livereload()); // reload
+        .pipe(uglify())                 // uglify
+        .pipe(gulp.dest(out + '/js'));  // save to build folder
 });
 
 // compile LESS files to build folder (no change)
@@ -54,16 +52,11 @@ gulp.task('styles', function () {
     gulp.src(styles_folder)
         .pipe(less())
         .on('error', errorLog)
-        .pipe(gulp.dest(out + '/css/'))
-        .pipe(livereload());
+        .pipe(gulp.dest(out + '/css/'));
 });
 
 // watches js files
 gulp.task('watch', function () {
-    // setup server
-    console.log('starting livereload on http://localhost:8080');
-    livereload.listen({ port: 8080 });
-
     gulp.watch(scripts_folder, ['scripts']);
     gulp.watch(styles_folder, ['styles']);
 
@@ -71,5 +64,5 @@ gulp.task('watch', function () {
 
 
 // default
-gulp.task('default', ['clean','html', 'scripts', 'styles', 'watch']);
+gulp.task('default', ['clean', 'html', 'scripts', 'styles', 'watch']);
 

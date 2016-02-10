@@ -25,9 +25,12 @@ var tsProject = tsc.createProject({
   declarationFiles : false
 });
 
+// clean out the build folder
 gulp.task('clean', function() {
     del('build/**','!build/');
 })
+
+// minify html and copy to build
 gulp.task('html', function () {
     gulp.src(html_folder)
         .pipe(htmlmin({collapseWhitespace: true}))
@@ -35,18 +38,18 @@ gulp.task('html', function () {
         .pipe(livereload());    // reload
 })
 
-// scripts task
-// uglifies
+// scripts task - compile TS, uglify and output to /build
 gulp.task('scripts', function () {
     // get source files
     gulp.src(scripts_folder)
         .pipe(tsc(tsProject))
+        .on('error', errorLog)
         .pipe(uglify())     // uglify
         .pipe(gulp.dest(out + '/js')) // save to build folder
         .pipe(livereload()); // reload
 });
 
-// copy css to build folder (no change)
+// compile LESS files to build folder (no change)
 gulp.task('styles', function () {
     gulp.src(styles_folder)
         .pipe(less())

@@ -7,10 +7,12 @@ var gulp = require('gulp'),
     mocha = require('gulp-mocha'),
     del = require('del');
 
-var html_folder = 'src/**/*.html';
-var scripts_folder = 'src/**/*.ts';
-var styles_folder = 'src/*.less';
-var test_folder = 'tests/*.ts';
+var PATHS = {
+    html:'src/**/*.html',
+    scripts:'src/**/*.ts',
+    styles:'src/*.less',
+    test:'tests/*.ts',
+}
 
 var out = 'build';
 
@@ -35,7 +37,7 @@ gulp.task('clean', function () {
 
 // minify html and copy to build
 gulp.task('html', function () {
-    gulp.src(html_folder)
+    gulp.src(PATHS.html)
         .pipe(htmlmin({ collapseWhitespace: true }))
         .pipe(gulp.dest(out));  // save to build folder
 })
@@ -43,7 +45,7 @@ gulp.task('html', function () {
 // scripts task - compile TS, uglify and output to /build
 gulp.task('scripts', function () {
     // get source files
-    gulp.src(scripts_folder)
+    gulp.src(PATHS.scripts)
         .pipe(tsc(tsProject))
         .on('error', errorLog)
         .pipe(uglify())                 // uglify
@@ -52,14 +54,14 @@ gulp.task('scripts', function () {
 
 // compile LESS files to build folder (no change)
 gulp.task('styles', function () {
-    gulp.src(styles_folder)
+    gulp.src(PATHS.styles)
         .pipe(less())
         .on('error', errorLog)
         .pipe(gulp.dest(out + '/css/'));
 });
 
 gulp.task('test', function() {
-    gulp.src(test_folder)
+    gulp.src(PATHS.test)
         .pipe(tsc(tsProject))
         .pipe(gulp.dest(out + '/tests/'));
         
@@ -69,8 +71,8 @@ gulp.task('test', function() {
 
 // watches js files
 gulp.task('watch', function () {
-    gulp.watch(scripts_folder, ['scripts']);
-    gulp.watch(styles_folder, ['styles']);
+    gulp.watch(PATHS.scripts, ['scripts']);
+    gulp.watch(PATHS.styles, ['styles']);
 
 });
 
